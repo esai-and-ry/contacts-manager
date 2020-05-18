@@ -1,13 +1,17 @@
+import org.w3c.dom.ls.LSOutput;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 
-public class ContactList implements contactMenu {
+public class ContactList {
     private static String directory;
     private static String filename;
 
@@ -17,8 +21,7 @@ public class ContactList implements contactMenu {
         filename = "contacts.txt";
         List<String> contactList = new ArrayList<>();
 //
-        contactList.add ("John | 0000000000");
-        contactList.add ("Doe | 1111111111");
+
 //
 ////        Where Folder is Gonna Live
         Path dataDirectory = Paths.get(directory);
@@ -97,7 +100,22 @@ public class ContactList implements contactMenu {
         }
     }
 
-    @Override
+
+
+
+
+    private static String fileContains(String needle, Path aFile) {
+        List<String> lines = readFile(aFile, false);
+        for (String line : lines) {
+            if(line.equals(needle)){
+                return line;
+            }
+        }
+        return null;
+    }
+
+
+
     public void menu(Path aFile) {
         System.out.println("1. View Contacts");
         System.out.println("2. Add a new contact");
@@ -111,31 +129,38 @@ public class ContactList implements contactMenu {
         int userInput = Integer.parseInt(scan.nextLine());
         if(userInput == 1){
             readFile(aFile, true);
+            menu(aFile);
         } else if (userInput == 2) {
+
+                String newName;
+                String newNumber;
+                System.out.println("Enter New Contact Name: ");
+                newName = scan.nextLine();
+                System.out.println("Enter New Contact Number: ");
+                newNumber = scan.nextLine();
+                Contact newContact = new Contact(newName, newNumber);
+                writeFile(aFile, Arrays.asList(newContact.combine()));
+                readFile(aFile, true);
+                menu(aFile);
+            } else if (userInput == 3) {
+            String search;
+            System.out.println("Search by name: ");
+            String input = scan.nextLine();
+            search = input;
+            System.out.println("contact" + fileContains(search, aFile));
+
 
         }
 
     }
 
-
-
-//        public void addContact() {
-//            String newName;
-//            String newNumber;
-//            Scanner scan = new Scanner(System.in);
-//            System.out.println("Enter New Contact Name: ");
-//            newName = scan.nextLine();
-//            System.out.println("Enter New Contact Number: ");
-//            newNumber = scan.nextLine();
-//
-//            Contact newContact = new Contact(newName, newNumber);
-//
-//
-//
-//
-//        }
-
-
-
-
 }
+
+
+
+
+
+
+
+
+

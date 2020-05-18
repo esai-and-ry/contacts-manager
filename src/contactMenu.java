@@ -1,5 +1,7 @@
+import java.nio.file.Path;
+
 public interface contactMenu {
 //    String display(Contact contact);
 
-    void menu ();
+    void menu (Path aFile);
 }

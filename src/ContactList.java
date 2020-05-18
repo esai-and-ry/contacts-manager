@@ -2,24 +2,42 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 
-public class contactList implements contactMenu {
-
-
+public class ContactList implements contactMenu {
+    private static String directory;
+    private static String filename;
 
     public static void main(String[] args) {
 
-        contactList c = new contactList();
+        String directory = "data";
+        String filename = "contacts.txt";
+        List<String> contactList = new ArrayList<>();
+//
+        contactList.add ("John | 0000000000");
+        contactList.add ("Doe | 1111111111");
+//
+////        Where Folder is Gonna Live
+        Path dataDirectory = Paths.get(directory);
+//
+//            // where the file is gonna live
+        Path contactsFilePath = Paths.get(directory, filename);
+//
+        createDir(dataDirectory);
 
-        c.menu();
+        createAndCheckFile(contactsFilePath);
+
+        writeFile(contactsFilePath, contactList);
+
+        readFile(contactsFilePath, true);
 
 
+        ContactList c = new ContactList();
 
+        c.menu(contactsFilePath);
 
 
 
@@ -80,7 +98,7 @@ public class contactList implements contactMenu {
     }
 
     @Override
-    public void menu() {
+    public void menu(Path aFile) {
         System.out.println("1. View Contacts");
         System.out.println("2. Add a new contact");
         System.out.println("3. Search a contact by name");
@@ -88,35 +106,36 @@ public class contactList implements contactMenu {
         System.out.println("5. Exit");
 
         System.out.println("Enter an option (1, 2, 3, 4 or 5):");
-
         Scanner scan = new Scanner(System.in);
 
         int userInput = Integer.parseInt(scan.nextLine());
-
         if(userInput == 1){
-            String directory = "data";
-            String filename = "contacts.txt";
-            List<String> contactList = new ArrayList<>();
-
-            contactList.add ("John | 0000000000");
-            contactList.add ("Doe | 1111111111");
-
-//        Where Folder is Gonna Live
-            Path dataDirectory = Paths.get(directory);
-
-            // where the file is gonna live
-            Path numbersFilePath = Paths.get(directory, filename);
-
-            createDir(dataDirectory);
-
-            createAndCheckFile(numbersFilePath);
-
-            writeFile(numbersFilePath, contactList);
-
-            readFile(numbersFilePath, true);
+            readFile(aFile, true);
+        } else if (userInput == 2) {
 
         }
+
     }
+
+
+
+//        public void addContact() {
+//            String newName;
+//            String newNumber;
+//            Scanner scan = new Scanner(System.in);
+//            System.out.println("Enter New Contact Name: ");
+//            newName = scan.nextLine();
+//            System.out.println("Enter New Contact Number: ");
+//            newNumber = scan.nextLine();
+//
+//            Contact newContact = new Contact(newName, newNumber);
+//
+//
+//
+//
+//        }
+
+
 
 
 }

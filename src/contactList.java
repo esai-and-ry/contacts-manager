@@ -5,32 +5,23 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
-public class contactList {
+public class contactList implements contactMenu {
+
+
 
     public static void main(String[] args) {
 
-        String directory = "data";
-        String filename = "contacts.txt";
-        List<String> contactList = new ArrayList<>();
+        contactList c = new contactList();
 
-        contactList.add ("John | 0000000000");
-        contactList.add ("Doe | 1111111111");
+        c.menu();
 
-//        Where Folder is Gonna Live
-        Path dataDirectory = Paths.get(directory);
 
-        // where the file is gonna live
-        Path numbersFilePath = Paths.get(directory, filename);
 
-        createDir(dataDirectory);
 
-        createAndCheckFile(numbersFilePath);
 
-        writeFile(numbersFilePath, contactList);
-
-        readFile(numbersFilePath, true);
 
     }
 
@@ -71,21 +62,61 @@ public class contactList {
     }
 
     public static List<String> readFile(Path aFile, boolean print){
-        List<String> lines;
+        List<String> contacts;
         try{
-            lines = Files.readAllLines(aFile);
+            contacts = Files.readAllLines(aFile);
             if(print == true){
-                for (String line: lines) {
+                for (String line: contacts) {
                     System.out.println("Contact = " + line);
                 }
                 return null;
             }
-            return lines;
+            return contacts;
         } catch (IOException e){
             System.out.println("Problems reading the file");
             e.printStackTrace();
             return null;
         }
     }
+
+    @Override
+    public void menu() {
+        System.out.println("1. View Contacts");
+        System.out.println("2. Add a new contact");
+        System.out.println("3. Search a contact by name");
+        System.out.println("4. Delete an existing contact");
+        System.out.println("5. Exit");
+
+        System.out.println("Enter an option (1, 2, 3, 4 or 5):");
+
+        Scanner scan = new Scanner(System.in);
+
+        int userInput = Integer.parseInt(scan.nextLine());
+
+        if(userInput == 1){
+            String directory = "data";
+            String filename = "contacts.txt";
+            List<String> contactList = new ArrayList<>();
+
+            contactList.add ("John | 0000000000");
+            contactList.add ("Doe | 1111111111");
+
+//        Where Folder is Gonna Live
+            Path dataDirectory = Paths.get(directory);
+
+            // where the file is gonna live
+            Path numbersFilePath = Paths.get(directory, filename);
+
+            createDir(dataDirectory);
+
+            createAndCheckFile(numbersFilePath);
+
+            writeFile(numbersFilePath, contactList);
+
+            readFile(numbersFilePath, true);
+
+        }
+    }
+
 
 }

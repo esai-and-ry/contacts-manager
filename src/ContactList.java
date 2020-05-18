@@ -13,8 +13,8 @@ public class ContactList implements contactMenu {
 
     public static void main(String[] args) {
 
-        String directory = "data";
-        String filename = "contacts.txt";
+        directory = "data";
+        filename = "contacts.txt";
         List<String> contactList = new ArrayList<>();
 //
         contactList.add ("John | 0000000000");

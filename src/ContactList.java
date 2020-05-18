@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +16,8 @@ public class ContactList {
     private static String directory;
     private static String filename;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        Scanner scan;
 
         directory = "data";
         filename = "contacts.txt";
@@ -37,12 +39,9 @@ public class ContactList {
 
         readFile(contactsFilePath, true);
 
+        menu(contactsFilePath);
 
-        ContactList c = new ContactList();
-
-        c.menu(contactsFilePath);
-
-
+        addContact(contactsFilePath);
 
     }
 
@@ -100,23 +99,52 @@ public class ContactList {
         }
     }
 
-
-
-
-
-    private static String fileContains(String needle, Path aFile) {
-        List<String> lines = readFile(aFile, false);
-        for (String line : lines) {
-            if(line.equals(needle)){
-                return line;
-            }
-        }
-        return null;
+    public static void addContact(Path aFile) throws IOException {
+        Scanner scan = new Scanner(System.in);
+        String newName;
+        String newNumber;
+        System.out.println("Enter New Contact Name: ");
+        newName = scan.nextLine();
+        System.out.println("Enter New Contact Number: ");
+        newNumber = scan.nextLine();
+        Contact newContact = new Contact(newName, newNumber);
+        Files.write(
+                aFile,
+                Arrays.asList(newContact.combine()), // list with one item
+                StandardOpenOption.APPEND
+        );
     }
 
 
 
-    public void menu(Path aFile) {
+
+
+//    private static List<String> searchItem(Path aFile){
+//        Scanner scan = new Scanner(System.in);
+//        String search;
+//        System.out.println("Search by name: ");
+//        String input = scan.nextLine();
+//        search = input;
+//        List<String> tempList = new ArrayList<>();
+//
+//        try {
+//            List<String> lines = Files.readAllLines(aFile);
+//            for (String line : lines) {
+//                if(line.contains(search)){
+//                    continue;
+//                }
+//                tempList.add(line);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return tempList;
+//    }
+
+
+
+    public static void menu(Path aFile) throws IOException {
         System.out.println("1. View Contacts");
         System.out.println("2. Add a new contact");
         System.out.println("3. Search a contact by name");
@@ -131,23 +159,12 @@ public class ContactList {
             readFile(aFile, true);
             menu(aFile);
         } else if (userInput == 2) {
+            addContact(aFile);
+            readFile(aFile, true);
+            menu(aFile);
+        } else if (userInput == 3) {
 
-                String newName;
-                String newNumber;
-                System.out.println("Enter New Contact Name: ");
-                newName = scan.nextLine();
-                System.out.println("Enter New Contact Number: ");
-                newNumber = scan.nextLine();
-                Contact newContact = new Contact(newName, newNumber);
-                writeFile(aFile, Arrays.asList(newContact.combine()));
-                readFile(aFile, true);
-                menu(aFile);
-            } else if (userInput == 3) {
-            String search;
-            System.out.println("Search by name: ");
-            String input = scan.nextLine();
-            search = input;
-            System.out.println("contact" + fileContains(search, aFile));
+
 
 
         }
@@ -155,6 +172,10 @@ public class ContactList {
     }
 
 }
+
+
+
+
 
 
 

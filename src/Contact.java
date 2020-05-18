@@ -30,6 +30,6 @@ public class Contact {
     }
 
     public String combine(){
-        return name + "" + "| " + number;
+        return name + "" + " | " + number;
     }
 }

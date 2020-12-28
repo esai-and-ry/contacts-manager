@@ -35,13 +35,13 @@ public class ContactList {
 
         createAndCheckFile(contactsFilePath);
 
-        writeFile(contactsFilePath, contactList);
+//        writeFile(contactsFilePath, contactList);
 
-        readFile(contactsFilePath, true);
+//        readFile(contactsFilePath, true);
 
         menu(contactsFilePath);
 
-        addContact(contactsFilePath);
+//        addContact(contactsFilePath);
 
     }
 
@@ -87,7 +87,7 @@ public class ContactList {
             contacts = Files.readAllLines(aFile);
             if(print == true){
                 for (String line: contacts) {
-                    System.out.println("Contact = " + line);
+                    System.out.println(line);
                 }
                 return null;
             }
